@@ -1,0 +1,40 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta
+    name="description"
+    content="SwaggerUI"
+  />
+  <title>SwaggerUI</title>
+  <link rel="stylesheet" href="https://unpkg.com/swagger-ui-dist@4.4.1/swagger-ui.css" />
+</head>
+<body>
+  <div id="swagger-ui"></div>
+  <script src="https://unpkg.com/swagger-ui-dist@4.4.1/swagger-ui-bundle.js" crossorigin></script>
+  <script src="https://unpkg.com/swagger-ui-dist@4.4.1/swagger-ui-standalone-preset.js" crossorigin></script>
+  <script>
+    window.onload = () => {
+      const apiBasePath = 'https://api.arenasolutions.com/v1';
+      const apiUrl = 'https://raw.githubusercontent.com/AZDevHub/ArenaAPI/3c6b276c216745847f0dce3b9c6737e5478d5ac0/processed_Arena_API_Samples_paths.json';
+
+      // Fetch the OpenAPI JSON and replace ${url} with the correct base URL
+      fetch(apiUrl)
+        .then(response => response.json())
+        .then(data => {
+          const jsonString = JSON.stringify(data);
+          const updatedJsonString = jsonString.replace(/\$\{url\}/g, apiBasePath);
+          const updatedJson = JSON.parse(updatedJsonString);
+
+          // Initialize Swagger UI with the updated JSON
+          window.ui = SwaggerUIBundle({
+            spec: updatedJson,
+            dom_id: '#swagger-ui',
+          });
+        });
+    };
+  </script>
+</body>
+</html>
